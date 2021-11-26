@@ -24,3 +24,8 @@
 <br>
 all files of conception (BDD,maquettes,diagrammes) are in the documentation repository
 <br>
+<br>
+#### TRELLO GESTION DE PROJET ####
+<br>
+<code>https://trello.com/b/ByvWRulj/tst</code>
+
