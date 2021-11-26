@@ -11,7 +11,7 @@ app.use(express.static(path.resolve(__dirname, '../mediatheque/build')));
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-    res.json({ message: "hello LA ZOONE NODE" });
+    res.json({ message: "hello Tout le monde" });
   });
 
   // All other GET requests not handled before will return our React app
