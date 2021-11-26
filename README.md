@@ -22,5 +22,5 @@
 <br>
 ## Conception 
 <br>
-all files of conception (BDD,maquettes,diagrammes) are in the documentation.pdf
+all files of conception (BDD,maquettes,diagrammes) are in the documentation repository
 <br>
