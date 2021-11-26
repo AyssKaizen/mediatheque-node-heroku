@@ -10,7 +10,7 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, '../mediatheque/build')));
 
 // Handle GET requests to /api route
-app.get("/api", (req, res) => {
+app.get("/api", (_, res) => {
     res.json({ message: "hello Tout la zone" });
   });
 

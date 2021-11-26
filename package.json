@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/index.js",
     "build": "cd mediatheque && npm install && npm run build",
-    "dev": "nodemon server/index.js"
+    "dev": "nodemon server/index.js",
+    "cli": "cd mediatheque && yarn start"
   },
   "engines": {
     "node": "14.17.0"
