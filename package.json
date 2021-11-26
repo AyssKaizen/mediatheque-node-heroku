@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "build": "cd mediatheque && npm install && npm run build"
+    "build": "cd mediatheque && npm install && npm run build",
+    "dev": "nodemon server/index.js"
   },
   "engines": {
     "node": "14.17.0"
@@ -15,5 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

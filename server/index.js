@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-// Have Node serve the files for our built React app
+// Have Node serve the files for our built React app.
 app.use(express.static(path.resolve(__dirname, '../mediatheque/build')));
 
 // Handle GET requests to /api route
@@ -16,7 +16,7 @@ app.get("/api", (req, res) => {
 
   // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../mediatheque/build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../mediatheque/build', '../public/index.html'));
   });
 
 app.listen(PORT, () => {
