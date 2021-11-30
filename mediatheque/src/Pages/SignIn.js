@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import Logo from "../components/Logo";
 import { useForm } from "react-hook-form";
 import HelperText from "../components/HelperText";
@@ -11,6 +11,10 @@ const SignIn = () => {
     const regexmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     const regexPostCode = /^(?:[0-8]\d|9[0-8])\d{3}$/;
 
+    const toggleModal = () => {
+      document.getElementById("modalUserAdded").classList.toggle("is-active")
+    }
+
     const managePassword = data => {
         if(data.password === data.confirmPass){
             setPassIsValid(true)
@@ -21,21 +25,53 @@ const SignIn = () => {
             return false
         }
     }
+    const onCloseModal = () => {
+      toggleModal()
+      navigate("/uservalidation")
+    }
 
-    const onSubmit = data => {
-        console.log({data})
-        if(isValid && managePassword(data))
-            navigate("/uservalidation")
+    const onSubmit = async (data,e) => {
+        e.preventDefault()
+        const {confirmPass,...rest} = data
+        console.log({rest})
+        if(managePassword(data)){
+
+          try {
+            const res = await fetch("http://localhost:3001/adduser",{
+              method: "POST",
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify({...rest, active: true, admin: false})
+            });
+            document.getElementById("signInForm").reset()
+            toggleModal()
+            console.log(res);
+            
+          } catch (err) {
+              console.error(err.message)
+          }
+        }
     }
     
   return (
-    <>
+    
+    <> 
+        <div id="modalUserAdded" className="modal">
+        <div className="modal-background"></div>
+        <div style={{display: 'flex', justifyContent: 'center'}} className="modal-content">
+          <div style={{display: "flex", flexDirection:"column", width: "60%"}} className="box">
+            <p style={{textAlign: 'center'}}>Félicitation, votre inscription est validée</p>
+            <button style={{alignSelf: 'center', margin: "10px"}} className="button is-small is-primary" onClick={onCloseModal}>cool !</button>
+          </div>
+        </div>
+        <button onClick={onCloseModal} class="modal-close is-large" aria-label="close"></button>
+      </div>
+
       <Logo />
       <h1 style={styles.title} className="title">
         S’inscrire à la médiathèque
       </h1>
       <div style={styles.container}>
-        <form onSubmit={handleSubmit(onSubmit)} style={styles.form} className="box">
+        <form id="signInForm" onSubmit={handleSubmit(onSubmit)} style={styles.form} className="box">
           <h2 style={styles.subtitle} className="subtitle">
           Veuillez renseigner les champs suivants:
           </h2>
@@ -46,14 +82,14 @@ const SignIn = () => {
                 </label>
                 <div className="control">
                 <input
-                    {...register("lastName",{required: true})}
+                    {...register("lastname",{required: true})}
                     style={styles.textColorInput}
                     className="input"
                     type="text"
                     placeholder="Sparrow"
                 />
                 </div>
-                {errors.lastName && <HelperText/>}
+                {errors.lastname && <HelperText/>}
             </div>
 
             <div style={styles.field}  className="field">
@@ -61,9 +97,9 @@ const SignIn = () => {
                 Prénom
                 </label>
                 <div className="control">
-                <input {...register("firstName",{required: true})} style={styles.textColorInput} className="input" type="text" placeholder="Jack"  />
+                <input {...register("firstname",{required: true})} style={styles.textColorInput} className="input" type="text" placeholder="Jack"  />
                 </div>
-                {errors.firstName && <HelperText/>}
+                {errors.firstname && <HelperText/>}
             </div>
           </div>
           <div  style={styles.rowField} className="field is-horizontal">
