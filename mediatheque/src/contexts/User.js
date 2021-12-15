@@ -5,20 +5,11 @@ export default UserContext;
 export const useUser = () => useContext(UserContext);
 
 export const UserContextProvider = ({children}) => {
-    const [profile, setProfile] = useState({})
+    const [profile, setProfile] = useState()
     const [rentals, setRentals] = useState([])
 
-    const getProfile = () => {
-        setProfile ({
-                lastname: "Jaeger",
-                firstname: "Eren",
-                birthday:"10/10/1990",
-                email:"moi@mail.com",
-                password:"123456",
-                role:"user",
-                isActive:true,
-            })
-    }
+    const getProfile = () => (profile) 
+    
     const getRentals = () => {
         setRentals (
             [
@@ -48,7 +39,7 @@ export const UserContextProvider = ({children}) => {
     },[])
 
 
-    return (<UserContext.Provider value={{ profile, rentals }}>
+    return (<UserContext.Provider value={{ profile, rentals, setProfile }}>
         {children}
     </UserContext.Provider>)
 }

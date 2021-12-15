@@ -3,17 +3,36 @@ import Logo from '../components/Logo';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import HelperText from '../components/HelperText';
+import { useUser } from '../contexts/User';
 
 const Login = () => {
-    const user = {login: "moi@mail.com", pass: "123456"}
     const navigate = useNavigate();
+    const {profile, setProfile} = useUser()
     const [error,setError] = useState("")
     const { register, handleSubmit, formState: { isValid } } = useForm({mode: 'onChange'});
-    const onSubmit = data => {
+
+    const onSubmit = async (data,e) => {
+        const {login, password} = data
+        e.preventDefault()
         console.log({data})
-        if(data.login  === user.login && user.pass === data.password){
-            navigate("catalog")
-        } else setError("mot de passe ou mail incorrect")
+        try {
+            const res = await fetch("http://localhost:3001/auth",{
+              method: "POST",
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify({email: login, password: password})
+            });
+            
+            const response = await res.json()
+            if(res.status === 200){
+                await setProfile(response)
+                console.log("RESPONSE ===>",response)
+                console.log(profile);
+                navigate('catalog')
+            } else setError(response)
+        } catch (error) {
+            console.error(error)
+        }
+
     }
     return (
         <>

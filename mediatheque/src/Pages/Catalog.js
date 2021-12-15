@@ -6,7 +6,7 @@ import { useUser } from '../contexts/User';
 
 const Catalog = () => {
     const {profile} = useUser()
-    const userIsActive = profile.isActive
+    const userIsActive = profile.us_active
 
     return (
         !userIsActive ?

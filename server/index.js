@@ -48,6 +48,26 @@ app.get("/users/:id", async (req,res) => {
   }
 });
 
+// get user by mail and password
+app.post("/auth", async (req,res) => {
+  const {email, password} = req.body
+  if(email && password){
+    try {
+      const user = await pool.query("SELECT * FROM users WHERE us_email = $1 AND us_password =$2",[email, password])
+      if(user.rows[0]){
+        res.json(user.rows[0])
+      } else {
+        res.status(404).json('le mot de passe ou le mail est incorrect')
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  } else {
+    res.send('Veuillez vous identifier en renseignant le mail et le mot de passe')
+    res.end()
+  }
+});
+
 //update user informations 
 app.put("/users/:id", async (req,res) => {
   try {

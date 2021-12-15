@@ -45,7 +45,7 @@ const Nav = ({profile}) => {
       </div>
 
       <div id="navbarBasic" class="navbar-menu">
-        {profile.role === "admin" &&
+        {profile.us_admin &&
             <div class="navbar-start">
             <div class="navbar-item">
                 <button class="button is-primary">+ Ajouter un livre</button>
@@ -55,12 +55,12 @@ const Nav = ({profile}) => {
         <div class="navbar-end">
         <Link to="/catalog" class="navbar-item">Catalogue</Link>
           <Link to="/myloan" class="navbar-item">Emprunts</Link>
-          {profile.role === "admin" && <Link to="/myloan" class="navbar-item">Validation</Link>}
+          {profile.us_admin && <Link to="/myloan" class="navbar-item">Validation</Link>}
           <div class="navbar-item">
             <div class="buttons">
             <div style={styles.userImage}>
               <img src={userImage} alt="icon user"/>
-              <span style={{fontSize: "12px"}}>{profile.firstname}</span>
+              <span style={{fontSize: "12px"}}>{profile.us_firstname}</span>
             </div>
               <button onClick={()=> navigate("/")} class="button is-primary is-small">log out</button>
             </div>
