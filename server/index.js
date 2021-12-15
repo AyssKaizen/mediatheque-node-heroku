@@ -41,7 +41,7 @@ app.get("/users", async (_,res) => {
 app.get("/users/:id", async (req,res) => {
   try {
     const { id } =req.params
-    const user = await pool.query("SELECT * FROM users WHERE id = $1 ",[id])
+    const user = await pool.query("SELECT * FROM users WHERE us_id = $1 ",[id])
     res.json(user.rows[0])
   } catch (err) {
     console.log(err.message);
@@ -53,7 +53,7 @@ app.put("/users/:id", async (req,res) => {
   try {
     const { id } =req.params
     const {lastname,firstname,postcode} = req.body
-    const user = await pool.query("UPDATE users SET lastname = $1,firstname = $2, postcode = $3 WHERE id = $4  ",[lastname,firstname,postcode,id])
+    const user = await pool.query("UPDATE users SET us_lastname = $1, us_firstname = $2, us_postcode = $3 WHERE us_id = $4  ",[lastname,firstname,postcode,id])
     res.json("Utilisateur mis à jour")
   } catch (err) {
     console.log(err.message);
@@ -63,7 +63,7 @@ app.put("/users/:id", async (req,res) => {
 app.delete("/users/:id", async (req,res) => {
   try {
     const { id } =req.params
-    const user = await pool.query("DELETE FROM users WHERE id = $1 RETURNING *",[id])
+    const user = await pool.query("DELETE FROM users WHERE us_id = $1 RETURNING *",[id])
     res.json(user.rows[0])
   } catch (err) {
     console.log(err.message);
