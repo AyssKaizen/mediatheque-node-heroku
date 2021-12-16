@@ -2,7 +2,7 @@
 const path = require("path");
 const express = require("express");
 require("dotenv").config()
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 const app = express();
 const cors = require("cors");
@@ -93,11 +93,6 @@ app.delete("/users/:id", async (req,res) => {
 
 // Have Node serve the files for our built React app.
 app.use(express.static(path.resolve(__dirname, '../mediatheque/build')));
-
-// Handle GET requests to /api route
-app.get("/api", (_, res) => {
-    res.json({ message: "hello Tout la zone" });
-  });
 
   // All other GET requests not handled before will return our React app
 app.get('*', (_, res) => {
