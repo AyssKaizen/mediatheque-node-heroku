@@ -11,13 +11,6 @@ const TypeOfMedia = () => {
   const [textInput, setTextInput] = useState("");
   const [showDetails, setShowDetails] = useState(false);
   const [itemClicked,setItemClicked] = useState()
-  const [dataFromServ, setDataFromServ] = React.useState(null);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setDataFromServ(data.message));
-  }, []);
 
   useEffect(() => {
     setCurrrentData(filterType());
@@ -118,7 +111,6 @@ const TypeOfMedia = () => {
       >
         <div style={styles.articlesSection}>
           {manageDatas()}
-          <p>{!dataFromServ ? "..loading": dataFromServ}</p>
         </div>
         <div
           style={{ width: "19%", backgroundColor: "#1A6E93", padding: "5px" }}
