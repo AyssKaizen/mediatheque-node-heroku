@@ -4,14 +4,18 @@ const express = require("express");
 require("dotenv").config()
 const PORT = process.env.PORT || 3002;
 
+const testRouter = require("./route")
+
 const app = express();
 const cors = require("cors");
 //middleware
 app.use(cors());
 app.use(express.json());
+app.use('/test', testRouter)
 
 
 const pool = require("../models/db_connexion");
+
 
 //ROUTES
 //add a user
