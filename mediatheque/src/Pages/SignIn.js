@@ -3,6 +3,7 @@ import Logo from "../components/Logo";
 import { useForm } from "react-hook-form";
 import HelperText from "../components/HelperText";
 import {useNavigate} from "react-router-dom"
+import envVar from "../envVar";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ const SignIn = () => {
         if(managePassword(data)){
 
           try {
-            const res = await fetch("http://localhost:3001/adduser",{
+            const res = await fetch(`${envVar.apiUrl}/users/adduser`,{
               method: "POST",
               headers: {"Content-Type": "application/json"},
               body: JSON.stringify({...rest, active: true, admin: false})
