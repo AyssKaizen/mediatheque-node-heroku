@@ -16,7 +16,7 @@ const Login = () => {
         const {login, password} = data
         e.preventDefault()
         try {
-            const res = await fetch(`${envVar.apiUrl}/users/auth`,{
+            const res = await fetch(`${envVar.apiUrl}/users/login`,{
               method: "POST",
               headers: {"Content-Type": "application/json"},
               body: JSON.stringify({email: login, password: password})
