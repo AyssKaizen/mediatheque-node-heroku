@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import HelperText from '../components/HelperText';
 import { useUser } from '../contexts/User';
+import envVar from '../envVar';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -14,9 +15,8 @@ const Login = () => {
     const onSubmit = async (data,e) => {
         const {login, password} = data
         e.preventDefault()
-        console.log({data})
         try {
-            const res = await fetch("http://localhost:3001/auth",{
+            const res = await fetch(`${envVar.apiUrl}/users/auth`,{
               method: "POST",
               headers: {"Content-Type": "application/json"},
               body: JSON.stringify({email: login, password: password})
