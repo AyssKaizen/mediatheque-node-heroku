@@ -3,10 +3,23 @@ const bcrypt = require('bcryptjs')
 
 const findAllUsers = () => db('users')
 
-const login = (email, password) => (db('users').where({us_email: email, us_password: password}))
+const login = async (email, password) => {
+    const user = await db('users').first('*').where({us_email: email})
+    if(user){
+        const validPass = await bcrypt.compare(password, user.us_password)
+        if(validPass){
+            const {us_password,...rest} = user
+            return rest
+        }
+        else 
+            return { msg: 'erreur mail ou mot de passe', code: 403 }
+    }
+    else 
+        return { msg: 'utilisateur introuvable', code: 404 }
+}
 
 const addUSer = async payload => {
-        const {lastname,firsttname,email,postcode,birthday,address,city,active,password,admin} = payload
+        const {lastname,firstname,email,postcode,birthday,address,city,active,password,admin} = payload
         const passHashed = await bcrypt.hash(password, 10)
         return db('users').returning('*').insert({
             us_lastname: lastname,

@@ -25,10 +25,10 @@ const Login = () => {
             const response = await res.json()
             if(res.status === 200){
                 await setProfile(response)
-                console.log("RESPONSE ===>",response)
-                console.log(profile);
                 navigate('catalog')
-            } else setError(response)
+            } 
+            else 
+                setError(response)
         } catch (error) {
             console.error(error)
         }
