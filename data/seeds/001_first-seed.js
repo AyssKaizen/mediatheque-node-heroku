@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs')
+
 const users = [
   {
     us_lastname: 'Jaeger',
@@ -8,8 +10,8 @@ const users = [
     us_city: 'Lyon',
     us_postcode: '69200',
     us_active: true,
-    us_password: 'eren123',
-    us_admin: false
+    us_password: bcrypt.hashSync('eren123', 10),
+    us_admin: true
   },
   {
     us_lastname: 'Ackerman',
@@ -20,7 +22,7 @@ const users = [
     us_city: 'Shiganshina',
     us_postcode: '31200',
     us_active: true,
-    us_password: 'mikasa123',
+    us_password: bcrypt.hashSync('mikasa123', 10),
     us_admin: false
   },
   {
@@ -32,7 +34,7 @@ const users = [
     us_city: 'Mar',
     us_postcode: '31000',
     us_active: true,
-    us_password: 'reiner123',
+    us_password: bcrypt.hashSync('reiner123', 10),
     us_admin: false
   },
   {
@@ -44,7 +46,7 @@ const users = [
     us_city: 'Shiganshina',
     us_postcode: '69000',
     us_active: true,
-    us_password: 'livai123',
+    us_password: bcrypt.hashSync('livai123', 10),
     us_admin: false
   },
   {
@@ -55,8 +57,8 @@ const users = [
     us_address: '34 chemin de trost',
     us_city: 'Shiganshina',
     us_postcode: '31000',
-    us_active: true,
-    us_password: 'armin123',
+    us_active: false,
+    us_password: bcrypt.hashSync('armin123', 10),
     us_admin: false
   },
 ];

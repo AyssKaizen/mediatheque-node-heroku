@@ -38,7 +38,7 @@ const SignIn = () => {
         if(managePassword(data)){
 
           try {
-            const res = await fetch(`${envVar.apiUrl}/users/adduser`,{
+            const res = await fetch(`${envVar.apiUrl}/users/register`,{
               method: "POST",
               headers: {"Content-Type": "application/json"},
               body: JSON.stringify({...rest, active: true, admin: false})

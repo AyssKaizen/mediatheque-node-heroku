@@ -16,7 +16,7 @@ const Login = () => {
         const {login, password} = data
         e.preventDefault()
         try {
-            const res = await fetch(`${envVar.apiUrl}/users/auth`,{
+            const res = await fetch(`${envVar.apiUrl}/users/login`,{
               method: "POST",
               headers: {"Content-Type": "application/json"},
               body: JSON.stringify({email: login, password: password})
@@ -25,10 +25,10 @@ const Login = () => {
             const response = await res.json()
             if(res.status === 200){
                 await setProfile(response)
-                console.log("RESPONSE ===>",response)
-                console.log(profile);
                 navigate('catalog')
-            } else setError(response)
+            } 
+            else 
+                setError(response)
         } catch (error) {
             console.error(error)
         }

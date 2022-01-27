@@ -18,32 +18,23 @@ router.get('/:id', async (req,res) => {
 });
 
 // get user by mail and password
-router.post('/auth', async (req,res) => {
+router.post('/login', async (req,res) => {
     const {email, password} = req.body
-    if(email && password){
-      try {
-        const user = await Users.authUser(email, password)
-        if(user[0]){
-          res.json(user[0])
-        } else {
-          res.status(404).json('le mot de passe ou le mail est incorrect')
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    } else {
-      res.send('Veuillez vous identifier en renseignant le mail et le mot de passe')
-      res.end()
-    }
+    const user = await Users.login(email,password)
+    if(user.msg)
+      res.status(user.code).json(user.msg)
+    if(!user.msg)
+      res.status(200).json(user)
 });
 
 //add a user
-router.post('/adduser', async (req,res) => {
+router.post('/register', async (req,res) => {
     try {
-      const newUser = await Users.addUSer(req.body)
-      res.json(newUser[0])
+      await Users.addUSer(req.body)
+      res.status(200).json('all good !')
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
+      res.status(500).send('something wrong')
     }
 });
 
