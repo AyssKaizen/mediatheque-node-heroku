@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs')
 
 const findAllUsers = () => db('users')
 
+const findOneByMail = (email) => db('users').first('*').where({us_email: email})
+
 const login = async (email, password) => {
     const user = await db('users').first('*').where({us_email: email})
     if(user){
@@ -69,5 +71,6 @@ module.exports = {
     addUSer,
     findUserByID,
     updateUserByID,
-    deleteUserByID
+    deleteUserByID,
+    findOneByMail
 }

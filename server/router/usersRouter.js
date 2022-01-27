@@ -1,10 +1,26 @@
 const router = require('express').Router()
 const Users = require('../../models/UsersModel')
 
-router.get('/', async (_,res) => {
-    const users = await Users.findAllUsers()
-    res.json(users)
+router.get('/', async (req,res) => {
+    console.log(req.session.user);
+    if(req.session.user.isAdmin){
+      const users = await Users.findAllUsers()
+      res.json(users)
+    } else res.json('vous ne disposez pas des autorisations nécessaires')
 })
+
+router.get('/auth', async (req,res) => {
+  if(req.session.user){
+    const id = req.session.user.id.toString()
+    try {
+      const user = await Users.findUserByID(id)
+      res.json(user[0])
+    } catch (err) {
+      console.log(err.message);
+    }
+  } else return null
+})
+
 
 // get user by id
 router.get('/:id', async (req,res) => {
@@ -17,18 +33,43 @@ router.get('/:id', async (req,res) => {
     }
 });
 
-// get user by mail and password
 router.post('/login', async (req,res) => {
     const {email, password} = req.body
+
     const user = await Users.login(email,password)
-    if(user.msg)
+    if(user.msg){
       res.status(user.code).json(user.msg)
-    if(!user.msg)
+    }
+    if(!user.msg){
+      const sessionUser = {
+        isAdmin: user.us_admin,
+        email: user.us_email,
+        isAuth: true,
+        id: user.us_id
+      }
+      req.session.user = sessionUser
       res.status(200).json(user)
+      res.send(req.session.sessionID)
+      console.log(req.session);
+    }
 });
+
+router.post('/logout', async (req,res) => {
+  console.log(req.session);
+  req.session.destroy((err) => {
+    if(err) throw err;
+    res.json('une erreur est survenue lors de la deconnexion')
+  })
+})
 
 //add a user
 router.post('/register', async (req,res) => {
+    const user = await Users.findOneByMail(req.body.email)
+    if(user){
+      res.status(403).json('cet email existe deja !')
+      return null
+    }
+
     try {
       await Users.addUSer(req.body)
       res.status(200).json('all good !')

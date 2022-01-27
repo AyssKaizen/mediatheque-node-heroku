@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import userImage from '../assets/user.png'
 import Logo from "./Logo";
 import { Link, useNavigate } from "react-router-dom";
+import envVar from "../envVar";
 
 const Nav = ({profile}) => {
     const navigate = useNavigate();  
@@ -24,6 +25,20 @@ const Nav = ({profile}) => {
       setBurgerIsActive(false);
     }
   };
+
+  const logout = async () => {
+    try {
+      await fetch(`${envVar.apiUrl}/users/logout`,{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+      });
+      navigate('/')
+      
+    } catch (error) {
+      console.error(error.message);
+    }
+    
+  }
   return (
     <nav style={{backgroundColor: '#FCF9F2'}} class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
@@ -62,7 +77,7 @@ const Nav = ({profile}) => {
               <img src={userImage} alt="icon user"/>
               <span style={{fontSize: "12px"}}>{profile.us_firstname}</span>
             </div>
-              <button onClick={()=> navigate("/")} class="button is-primary is-small">log out</button>
+              <button onClick={logout} class="button is-primary is-small">log out</button>
             </div>
           </div>
         </div>

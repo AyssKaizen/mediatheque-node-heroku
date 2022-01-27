@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
-
+import envVar from '../envVar';
 const UserContext = createContext({});
 export default UserContext;
 export const useUser = () => useContext(UserContext);
@@ -7,6 +7,42 @@ export const useUser = () => useContext(UserContext);
 export const UserContextProvider = ({children}) => {
     const [profile, setProfile] = useState()
     const [rentals, setRentals] = useState([])
+
+    const checkConnexion = async  () => {
+
+        try {
+            const response = await fetch(`${envVar.apiUrl}/users/auth`,{
+                method: "GET",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const user = await response.json()
+            user && setProfile(user)
+            console.log({user});
+            return user
+            
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+    const logIn = async (login, password) => {
+
+        try {
+            const res = await fetch(`${envVar.apiUrl}/users/login`,{
+                method: "POST",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({email: login, password: password})
+            });
+            const user = await res.json()
+            if(res.status === 200) setProfile(user)
+            return user
+            
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
 
     const getProfile = () => (profile) 
     
@@ -36,10 +72,10 @@ export const UserContextProvider = ({children}) => {
     useEffect(()=>{
         getProfile();
         getRentals();
-    },[])
+    },[]) // eslint-disable-line
 
 
-    return (<UserContext.Provider value={{ profile, rentals, setProfile }}>
+    return (<UserContext.Provider value={{ profile, rentals, setProfile, checkConnexion, logIn }}>
         {children}
     </UserContext.Provider>)
 }

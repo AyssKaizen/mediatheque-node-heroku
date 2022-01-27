@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState} from "react";
 import Logo from "../components/Logo";
 import { useForm } from "react-hook-form";
 import HelperText from "../components/HelperText";
@@ -9,7 +9,7 @@ const SignIn = () => {
     const navigate = useNavigate();
     const [passIsValid, setPassIsValid] = useState()
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({mode: 'onChange'});
-    const regexmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const regexmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i; /* eslint-disable-line */
     const regexPostCode = /^(?:[0-8]\d|9[0-8])\d{3}$/;
 
     const toggleModal = () => {

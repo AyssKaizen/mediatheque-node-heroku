@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import Logo from '../components/Logo';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
@@ -8,27 +8,32 @@ import envVar from '../envVar';
 
 const Login = () => {
     const navigate = useNavigate();
-    const {profile, setProfile} = useUser()
+    const {checkConnexion, logIn} = useUser()
     const [error,setError] = useState("")
+    const [connected, setConnected] = useState(false)
     const { register, handleSubmit, formState: { isValid } } = useForm({mode: 'onChange'});
+
+    useEffect(() => {
+        !connected && checkConnected()
+        connected && navigate('catalog')
+        console.log('user connected:', connected);
+    },[connected])
+
+    const checkConnected = async () => {
+        try {
+            const user = await checkConnexion()
+            user ? setConnected(true) : setConnected(false)       
+        } catch (error) {
+            console.error(error.message); 
+        }
+    }
 
     const onSubmit = async (data,e) => {
         const {login, password} = data
         e.preventDefault()
         try {
-            const res = await fetch(`${envVar.apiUrl}/users/login`,{
-              method: "POST",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify({email: login, password: password})
-            });
-            
-            const response = await res.json()
-            if(res.status === 200){
-                await setProfile(response)
-                navigate('catalog')
-            } 
-            else 
-                setError(response)
+            const res = await logIn(login, password)
+            typeof res == 'string' ? setError(res) : setConnected(true)
         } catch (error) {
             console.error(error)
         }
@@ -37,7 +42,7 @@ const Login = () => {
     return (
         <>
             <Logo/>
-            <h1 style={styles.title} class="title"> Bienvenue à la médiathèque de la Chapelle-Curreaux </h1>
+            <h1 style={styles.title} className="title"> Bienvenue à la médiathèque de la Chapelle-Curreaux </h1>
             <div style={styles.container}>
                 <form onSubmit={handleSubmit(onSubmit)} style={styles.form} className="box">
                 <h2 style={styles.subtitle} className="subtitle">Se connecter</h2>
@@ -48,17 +53,17 @@ const Login = () => {
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label style={{color: "#1A6E93"}} class="label">Mot de passe</label>
-                        <div class="control">
-                            <input {...register("password",{required: true})} class="input" type="password" placeholder="********"/>
+                    <div className="field">
+                        <label style={{color: "#1A6E93"}} className="label">Mot de passe</label>
+                        <div className="control">
+                            <input {...register("password",{required: true})} className="input" type="password" placeholder="********"/>
                         </div>
                     </div>
-                    <button disabled={!isValid} style={styles.button} class="button"> CONNEXION </button>
+                    <button disabled={!isValid} style={styles.button} className="button"> CONNEXION </button>
                     {error !== "" && <HelperText login={error}/>}
                 </form>
             </div>
-            <p style={styles.subtitle2} class="subtitle is-6">Pas encore de compte ? <Link to="Signin">S'inscrire</Link></p>
+            <p style={styles.subtitle2} className="subtitle is-6">Pas encore de compte ? <Link to="Signin">S'inscrire</Link></p>
         </>
     )
 }
