@@ -9,7 +9,6 @@ export const UserContextProvider = ({children}) => {
     const [rentals, setRentals] = useState([])
 
     const checkConnexion = async  () => {
-
         try {
             const response = await fetch(`${envVar.apiUrl}/users/auth`,{
                 method: "GET",
@@ -27,7 +26,6 @@ export const UserContextProvider = ({children}) => {
     }
 
     const logIn = async (login, password) => {
-
         try {
             const res = await fetch(`${envVar.apiUrl}/users/login`,{
                 method: "POST",
@@ -42,6 +40,19 @@ export const UserContextProvider = ({children}) => {
         } catch (error) {
             console.error(error.message)
         }
+    }
+
+    const logOut = async () => {
+        try {
+            const res = await fetch(`${envVar.apiUrl}/users/logout`,{
+              method: "POST",
+              credentials: 'include',
+              headers: {"Content-Type": "application/json"},
+            });
+            return res
+          } catch (error) {
+            console.error(error.message);
+          }
     }
 
     const getProfile = () => (profile) 
@@ -75,7 +86,7 @@ export const UserContextProvider = ({children}) => {
     },[]) // eslint-disable-line
 
 
-    return (<UserContext.Provider value={{ profile, rentals, setProfile, checkConnexion, logIn }}>
+    return (<UserContext.Provider value={{ profile, rentals, setProfile, checkConnexion, logIn, logOut }}>
         {children}
     </UserContext.Provider>)
 }

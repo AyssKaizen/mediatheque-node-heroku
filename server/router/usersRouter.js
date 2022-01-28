@@ -2,8 +2,8 @@ const router = require('express').Router()
 const Users = require('../../models/UsersModel')
 
 router.get('/', async (req,res) => {
-    console.log(req.session.user);
-    if(req.session.user.isAdmin){
+
+    if(req.session?.user?.isAdmin){
       const users = await Users.findAllUsers()
       res.json(users)
     } else res.json('vous ne disposez pas des autorisations nécessaires')
@@ -18,7 +18,7 @@ router.get('/auth', async (req,res) => {
     } catch (err) {
       console.log(err.message);
     }
-  } else return null
+  } else res.json(null)
 })
 
 
@@ -50,15 +50,13 @@ router.post('/login', async (req,res) => {
       req.session.user = sessionUser
       res.status(200).json(user)
       res.send(req.session.sessionID)
-      console.log(req.session);
     }
 });
 
 router.post('/logout', async (req,res) => {
-  console.log(req.session);
   req.session.destroy((err) => {
     if(err) throw err;
-    res.json('une erreur est survenue lors de la deconnexion')
+    res.status(200).json('session deleted')
   })
 })
 

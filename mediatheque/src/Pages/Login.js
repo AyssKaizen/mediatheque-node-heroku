@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import HelperText from '../components/HelperText';
 import { useUser } from '../contexts/User';
-import envVar from '../envVar';
 
 const Login = () => {
     const navigate = useNavigate();

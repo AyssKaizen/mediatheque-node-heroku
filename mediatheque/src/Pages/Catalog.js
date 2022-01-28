@@ -12,7 +12,7 @@ const Catalog = () => {
 
     useEffect(()=> {
         !profile && navigate('/')
-    },[])
+    },[]) // eslint-disable-line
 
     return (
         !userIsActive ?

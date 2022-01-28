@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import userImage from '../assets/user.png'
 import Logo from "./Logo";
 import { Link, useNavigate } from "react-router-dom";
-import envVar from "../envVar";
+import { useUser } from "../contexts/User";
 
 const Nav = ({profile}) => {
-    const navigate = useNavigate();  
-  const [burgerIsActive, setBurgerIsActive] = useState(false);
-
-  useEffect(()=> {
-    console.log(profile);
-  },[profile])
+  const navigate = useNavigate()
+  const { logOut } = useUser() 
+  const [burgerIsActive, setBurgerIsActive] = useState(false)
 
   const toggleBurger = () => {
-    const burger = document.getElementById("burger");
-    const menu = document.getElementById("navbarBasic");
+    const burger = document.getElementById("burger")
+    const menu = document.getElementById("navbarBasic")
     if (!burgerIsActive) {
       burger.classList.add("is-active");
       menu.classList.add("is-active");
@@ -27,18 +24,13 @@ const Nav = ({profile}) => {
   };
 
   const logout = async () => {
-    try {
-      await fetch(`${envVar.apiUrl}/users/logout`,{
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-      });
+     const response = await logOut()
+     if(response.status == 200){
+      document.cookie = "sid=; expires=Thu, 18 Dec 2013 12:00:00 UTC"
       navigate('/')
-      
-    } catch (error) {
-      console.error(error.message);
     }
-    
   }
+
   return (
     <nav style={{backgroundColor: '#FCF9F2'}} class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
