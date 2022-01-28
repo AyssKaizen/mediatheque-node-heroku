@@ -2,7 +2,7 @@
 
 #to start the backServ in dev env hot reloading
 <br>
-<code>npm run nodemon </code>
+<code>npm run dev </code>
 <br>
 <br>
 ##start the front in dev env 
@@ -13,13 +13,11 @@
 <br>
 ## User TEST
 <br>
-<code> identifiant: "moi@mail.com", password: "123456" </code>
+<code> you can create a user in the sign in page :) </code>
 <br>
 <br>
 ## Admin TEST
-<br>
-<code> Not available for now  (coming soon !) </code> 
-<br>
+please send me a message if you want an admin access
 ## Conception 
 <br>
 all files of conception (BDD,maquettes,diagrammes) are in the documentation repository
