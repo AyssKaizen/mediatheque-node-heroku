@@ -15,8 +15,7 @@ const Login = () => {
     useEffect(() => {
         !connected && checkConnected()
         connected && navigate('catalog')
-        console.log('user connected:', connected);
-    },[connected])
+    },[connected]) // eslint-disable-line
 
     const checkConnected = async () => {
         try {

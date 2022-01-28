@@ -17,7 +17,6 @@ export const UserContextProvider = ({children}) => {
             });
             const user = await response.json()
             user && setProfile(user)
-            console.log({user});
             return user
             
         } catch (error) {

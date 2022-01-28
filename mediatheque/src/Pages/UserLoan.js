@@ -13,7 +13,7 @@ const UserLoan = () => {
         console.log({rentals}); 
     },[]) // eslint-disable-line
     const manageRow = () => {
-        return rentals.map(item => <tr><td>{item.title}</td><td>{item.author}</td><td>{item.date}</td><td>{item.type}</td></tr>)
+        return rentals.map(item => <tr key={item.id}><td>{item.title}</td><td>{item.author}</td><td>{item.date}</td><td>{item.type}</td></tr>)
     }
     return (
         <>
