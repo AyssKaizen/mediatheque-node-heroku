@@ -24,13 +24,14 @@ const store = new KnexSession({
   knex,
   tablename: 'sessions'
 })
-
+app.enable('trust proxy') // optional, not needed for secure cookies
 app.use(session({
   name: process.env.SESS_NAME,
   secret: process.env.SESS_SECRET,
   resave: false,
   saveUninitialized: false,
   store: store,
+  proxy: process.env.NODE_ENV === "production",
   unset: 'destroy',
   cookie: {
     maxAge: parseInt(process.env.SESS_LIFETIME),
