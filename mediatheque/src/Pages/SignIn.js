@@ -41,7 +41,7 @@ const SignIn = () => {
             const res = await fetch(`${envVar.apiUrl}/users/register`,{
               method: "POST",
               headers: {"Content-Type": "application/json"},
-              body: JSON.stringify({...rest, active: true, admin: false})
+              body: JSON.stringify({...rest, active: false, admin: false})
             });
             document.getElementById("signInForm").reset()
             toggleModal()
