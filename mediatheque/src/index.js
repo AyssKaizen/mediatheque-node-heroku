@@ -7,7 +7,6 @@ import 'bulma/css/bulma.min.css';
 import SignIn from './Pages/SignIn';
 import reportWebVitals from './reportWebVitals';
 import PendingValidation from './Pages/PendingValidation';
-import Login from './Pages/Login';
 import Catalog from './Pages/Catalog'
 import {UserContextProvider} from './contexts/User'
 import UserLoan from './Pages/UserLoan';
@@ -19,7 +18,6 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="login" element={<Login/>} />
         <Route path="myloan" element={<UserLoan/>} />
         <Route path="catalog" element={<Catalog/>} />
         <Route path="signin" element={<SignIn />} />

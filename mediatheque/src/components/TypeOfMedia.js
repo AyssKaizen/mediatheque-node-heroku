@@ -14,16 +14,14 @@ const TypeOfMedia = () => {
 
   useEffect(() => {
     setCurrrentData(filterType());
-    console.log({ currentType });
-  }, [currentType]);
+  }, [currentType]); // eslint-disable-line
 
   useEffect(() => {
     setCurrrentData(filterGenre());
-    console.log({ currentGenre });
-  }, [currentGenre]);
+  }, [currentGenre]); // eslint-disable-line
 
   const manageDatas = () => {
-    return currentData.map((item) => <div onClick={()=> {setShowDetails(true); setItemClicked(item)}}><Article item={item} /></div>);
+    return currentData.map((item) => <div key={item.id} onClick={()=> {setShowDetails(true); setItemClicked(item)}}><Article item={item} /></div>);
   };
   const search = () => {
     setCurrrentData(
@@ -35,7 +33,7 @@ const TypeOfMedia = () => {
   const unique = (list) => {
     let unique = [];
     list.forEach((item) => {
-      if (unique.filter((it) => it.genre === item.genre).length == 0) {
+      if (unique.filter((it) => it.genre === item.genre).length === 0) {
         unique.push(item);
       }
     });
@@ -73,7 +71,7 @@ const TypeOfMedia = () => {
   };
   const manageTypes = (medias) => {
     return medias.map((item) => (
-      <p id={item} onClick={() => setCurrentType(item)} style={styles.type}>
+      <p key={item} id={item} onClick={() => setCurrentType(item)} style={styles.type}>
         {item}
       </p>
     ));

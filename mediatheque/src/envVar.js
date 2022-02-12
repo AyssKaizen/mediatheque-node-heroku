@@ -1,6 +1,6 @@
 const getEnvVars = (env) => {
-    console.log(`RELEASE CHANNEL: ${env} `)
-    switch (process.env.NODE_ENV) {
+    console.log(`RELEASE CHANNEL: ${env}`)
+    switch (env) {
         case 'production': 
             return { apiUrl: 'https://mediatheque-react-node.herokuapp.com'}
         case 'development': 
