@@ -60,15 +60,18 @@ const Nav = ({profile}) => {
             </div>
         }
         <div className="navbar-end">
-        <Link to="/catalog" className="navbar-item">Catalogue</Link>
-          <Link to="/myloan" className="navbar-item">Emprunts</Link>
+          {profile.us_active && (
+          <>
+            <Link to="/catalog" className="navbar-item">Catalogue</Link>
+            <Link to="/myloan" className="navbar-item">Emprunts</Link>
+          </>)}
           {profile.us_admin && <Link to="/myloan" className="navbar-item">Validation</Link>}
           <div className="navbar-item">
             <div className="buttons">
-            <div style={styles.userImage}>
-              <img src={userImage} alt="icon user"/>
-              <span style={{fontSize: "12px"}}>{profile.us_firstname}</span>
-            </div>
+              <div style={styles.userImage}>
+                <img src={userImage} alt="icon user"/>
+                <span style={{fontSize: "12px"}}>{profile.us_firstname}</span>
+              </div>
               <button onClick={logout} className="button is-primary is-small">log out</button>
             </div>
           </div>
