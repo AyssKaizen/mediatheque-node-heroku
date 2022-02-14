@@ -7,6 +7,7 @@ export const useUser = () => useContext(UserContext);
 export const UserContextProvider = ({children}) => {
     const [profile, setProfile] = useState()
     const [rentals, setRentals] = useState([])
+    const [noActiveUsers, setNoActiveUSers ] = useState()
 
     const checkConnexion = async  () => {
         try {
@@ -79,9 +80,60 @@ export const UserContextProvider = ({children}) => {
             )
     }
 
+    const getNoActiveUsers = () => {
+        setNoActiveUSers (
+            [
+                {
+                    id: 1,
+                    lastname: "Sparrow",
+                    firstname:"Jack",
+                    email:"jacky@mail.com",
+                    birthday:"10/12/2000",
+                    address: '2 rue de la',
+                    city: "Lyon",
+                    postcode: '69000'
+                },
+                {
+                    id: 2,
+                    lastname: "jap",
+                    firstname:"Jack",
+                    email:"jap@mail.com",
+                    birthday:"10/12/2003",
+                    address: '2 rue de la rue',
+                    city: "Panam",
+                    postcode: '93000'
+                },
+                {
+                    id: 3,
+                    lastname: "Gey",
+                    firstname:"Peter",
+                    email:"guey@mail.com",
+                    birthday:"10/12/2000",
+                    address: '2 rue de la street',
+                    city: "Paris",
+                    postcode: '75000'
+                },
+                {
+                    id: 4,
+                    lastname: "hellos",
+                    firstname:"tavu",
+                    email:"hellos@mail.com",
+                    birthday:"10/12/2000",
+                    address: '2 chemin dy',
+                    city: "Bordeaux",
+                    postcode: '04000'
+                },
+            ]
+            
+
+            )
+    }
+
+
     useEffect(()=>{
         getProfile();
         getRentals();
+        getNoActiveUsers();
     },[]) // eslint-disable-line
 
 
@@ -91,7 +143,8 @@ export const UserContextProvider = ({children}) => {
         setProfile, 
         checkConnexion, 
         logIn, 
-        logOut 
+        logOut, 
+        noActiveUsers
     }}>
         {children}
     </UserContext.Provider>)

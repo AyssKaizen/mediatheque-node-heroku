@@ -17,7 +17,7 @@ const Login = () => {
         if(profile?.us_active & connected)
             navigate('catalog') 
         if(!profile?.us_active & connected)
-            navigate('userValidation')
+            navigate('pending')
     },[connected]) // eslint-disable-line
 
     const checkConnected = async () => {
