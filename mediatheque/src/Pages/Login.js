@@ -14,9 +14,9 @@ const Login = () => {
 
     useEffect(() => {
         !connected && checkConnected()
-        if(profile.us_active & connected)
+        if(profile?.us_active & connected)
             navigate('catalog') 
-        if(!profile.us_active & connected)
+        if(!profile?.us_active & connected)
             navigate('userValidation')
     },[connected]) // eslint-disable-line
 
