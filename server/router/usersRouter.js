@@ -9,6 +9,13 @@ router.get('/', async (req,res) => {
     } else res.json('vous ne disposez pas des autorisations nécessaires')
 })
 
+router.get('/inactive', async (req,res) => {
+  if(req.session?.user?.isAdmin){
+    const users = await Users.findNoactiveUsers()
+    res.json(users)
+  } else res.json('vous ne disposez pas des autorisations nécessaires')
+})
+
 router.get('/auth', async (req,res) => {
   if(req.session.user){
     const id = req.session.user.id.toString()

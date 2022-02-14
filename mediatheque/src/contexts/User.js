@@ -57,7 +57,7 @@ export const UserContextProvider = ({children}) => {
 
     const getProfile = () => (profile) 
     
-    const getRentals = () => {
+    const getRentals =  () => {
         setRentals (
             [
                 {
@@ -80,53 +80,18 @@ export const UserContextProvider = ({children}) => {
             )
     }
 
-    const getNoActiveUsers = () => {
-        setNoActiveUSers (
-            [
-                {
-                    id: 1,
-                    lastname: "Sparrow",
-                    firstname:"Jack",
-                    email:"jacky@mail.com",
-                    birthday:"10/12/2000",
-                    address: '2 rue de la',
-                    city: "Lyon",
-                    postcode: '69000'
-                },
-                {
-                    id: 2,
-                    lastname: "jap",
-                    firstname:"Jack",
-                    email:"jap@mail.com",
-                    birthday:"10/12/2003",
-                    address: '2 rue de la rue',
-                    city: "Panam",
-                    postcode: '93000'
-                },
-                {
-                    id: 3,
-                    lastname: "Gey",
-                    firstname:"Peter",
-                    email:"guey@mail.com",
-                    birthday:"10/12/2000",
-                    address: '2 rue de la street',
-                    city: "Paris",
-                    postcode: '75000'
-                },
-                {
-                    id: 4,
-                    lastname: "hellos",
-                    firstname:"tavu",
-                    email:"hellos@mail.com",
-                    birthday:"10/12/2000",
-                    address: '2 chemin dy',
-                    city: "Bordeaux",
-                    postcode: '04000'
-                },
-            ]
-            
-
-            )
+    const getNoActiveUsers = async () => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/users/inactive`,{
+                method: "GET",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const users = await response.json()
+            users && setNoActiveUSers(users)
+        } catch (error) {
+            console.error(error.message)
+        }
     }
 
 
