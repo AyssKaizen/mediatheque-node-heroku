@@ -103,7 +103,23 @@ export const UserContextProvider = ({children}) => {
             });
             const res = await response.json()
             if(response.status === 200){
-                console.log('user activé');
+                await getNoActiveUsers()
+            }
+            return res
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+    const deleteUser = async id => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/users/remove/${id}`,{
+                method: "DELETE",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const res = await response.json()
+            if(response.status === 200){
                 await getNoActiveUsers()
             }
             return res
@@ -130,7 +146,8 @@ export const UserContextProvider = ({children}) => {
         logOut, 
         noActiveUsers,
         activateUser,
-        getNoActiveUsers
+        getNoActiveUsers,
+        deleteUser
     }}>
         {children}
     </UserContext.Provider>)

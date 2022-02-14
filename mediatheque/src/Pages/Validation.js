@@ -1,12 +1,13 @@
-import React,{useEffect} from "react"
+import React,{useEffect,useState} from "react"
 import { useNavigate } from "react-router-dom"
 import Nav from "../components/Nav"
 import { useUser } from "../contexts/User"
 
 
 const Validation = () => {
-    const { profile, noActiveUsers, activateUser, getNoActiveUsers } = useUser()
+    const { profile, noActiveUsers, activateUser, getNoActiveUsers, deleteUser } = useUser()
     const navigate = useNavigate()
+    const [modalText, setModalText] = useState('')
 
     useEffect(()=> {
         !profile && navigate('/')
@@ -41,11 +42,14 @@ const Validation = () => {
                 </tr>)
     
     const validOrDeleteUser = async (id, state) => {
-        if(state === 'delete')
-            console.log('user deleted', id);
-            //deleteUser(id)
+        if(state === 'delete'){
+            const res = await deleteUser(id)
+            setModalText(res)
+            toggleModal()
+        }
         if(state === 'validate'){
-            await activateUser(id)
+            const res = await activateUser(id)
+            setModalText(res)
             toggleModal()
         }
 
@@ -59,14 +63,14 @@ const Validation = () => {
                     <div className="modal-background"></div>
                     <div style={{display: 'flex', justifyContent: 'center'}} className="modal-content">
                     <div style={{display: "flex", flexDirection:"column", width: "60%"}} className="box">
-                        <p style={{textAlign: 'center'}}>le compte utilisateur a été activé</p>
+                        <p style={{textAlign: 'center'}}>{modalText}</p>
                         <button style={{alignSelf: 'center', margin: "10px"}} className="button is-small is-primary" onClick={onCloseModal}>cool !</button>
                     </div>
                     </div>
                     <button onClick={onCloseModal} className="modal-close is-large" aria-label="close"></button>
                 </div>
                 <div style={{textAlign: "center", color: "#1A6E93"}} className="title is-3">Utilisateurs en attente de validation</div>
-                <div style={{ marginLeft: "10%",width:" 85%",display: "flex", justifyContent: "center"}}>
+                {noActiveUsers.length > 0 ? <div style={{ marginLeft: "10%",width:" 85%",display: "flex", justifyContent: "center"}}>
                     <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                         <thead>
                             <tr>
@@ -81,10 +85,20 @@ const Validation = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {noActiveUsers && manageRow()}
+                            {manageRow()}
                         </tbody>
                     </table>
-                </div>
+                </div> 
+                : 
+                <div>
+                    <p style={{
+                        textAlign: 'center', 
+                        color: "#1A6E93", 
+                        marginTop: '10%' }}
+                    >
+                        AUCUN UTILISATEUR EN ATTENTE
+                    </p>
+                </div>}
                 </>
             }
         </>
