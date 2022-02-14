@@ -7,7 +7,7 @@ export const useUser = () => useContext(UserContext);
 export const UserContextProvider = ({children}) => {
     const [profile, setProfile] = useState()
     const [rentals, setRentals] = useState([])
-    const [noActiveUsers, setNoActiveUSers ] = useState()
+    const [noActiveUsers, setNoActiveUSers ] = useState([])
 
     const checkConnexion = async  () => {
         try {
@@ -94,6 +94,25 @@ export const UserContextProvider = ({children}) => {
         }
     }
 
+    const activateUser = async id => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/users/activate/${id}`,{
+                method: "PUT",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const res = await response.json()
+            if(response.status === 200){
+                console.log('user activé');
+                await getNoActiveUsers()
+            }
+            return res
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+
 
     useEffect(()=>{
         getProfile();
@@ -109,7 +128,9 @@ export const UserContextProvider = ({children}) => {
         checkConnexion, 
         logIn, 
         logOut, 
-        noActiveUsers
+        noActiveUsers,
+        activateUser,
+        getNoActiveUsers
     }}>
         {children}
     </UserContext.Provider>)

@@ -61,6 +61,16 @@ const updateUserByID = (id,payload) => {
         })
 }
 
+const activateUserByID = id => {
+    return db('users')
+        .where({
+            us_id: id
+        })
+        .update({
+            us_active: true,
+        })
+}
+
 const deleteUserByID = id => {
     return db('users').where({
         us_id: id
@@ -75,5 +85,6 @@ module.exports = {
     updateUserByID,
     deleteUserByID,
     findOneByMail,
-    findNoactiveUsers
+    findNoactiveUsers,
+    activateUserByID
 }
