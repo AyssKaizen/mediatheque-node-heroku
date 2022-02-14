@@ -85,7 +85,14 @@ export const UserContextProvider = ({children}) => {
     },[]) // eslint-disable-line
 
 
-    return (<UserContext.Provider value={{ profile, rentals, setProfile, checkConnexion, logIn, logOut }}>
+    return (<UserContext.Provider value={{ 
+        profile, 
+        rentals, 
+        setProfile, 
+        checkConnexion, 
+        logIn, 
+        logOut 
+    }}>
         {children}
     </UserContext.Provider>)
 }

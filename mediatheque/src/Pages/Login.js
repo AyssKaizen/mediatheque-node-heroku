@@ -7,14 +7,17 @@ import { useUser } from '../contexts/User';
 
 const Login = () => {
     const navigate = useNavigate();
-    const {checkConnexion, logIn} = useUser()
+    const {checkConnexion, logIn, profile} = useUser()
     const [error,setError] = useState("")
     const [connected, setConnected] = useState(false)
     const { register, handleSubmit, formState: { isValid } } = useForm({mode: 'onChange'});
 
     useEffect(() => {
         !connected && checkConnected()
-        connected && navigate('catalog')
+        if(profile.us_active & connected)
+            navigate('catalog') 
+        if(!profile.us_active & connected)
+            navigate('userValidation')
     },[connected]) // eslint-disable-line
 
     const checkConnected = async () => {

@@ -28,7 +28,7 @@ const SignIn = () => {
     }
     const onCloseModal = () => {
       toggleModal()
-      navigate("/uservalidation")
+      navigate("/")
     }
 
     const onSubmit = async (data,e) => {
