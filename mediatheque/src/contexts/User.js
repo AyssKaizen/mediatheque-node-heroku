@@ -7,6 +7,7 @@ export const useUser = () => useContext(UserContext);
 export const UserContextProvider = ({children}) => {
     const [profile, setProfile] = useState()
     const [rentals, setRentals] = useState([])
+    const [noActiveUsers, setNoActiveUSers ] = useState([])
 
     const checkConnexion = async  () => {
         try {
@@ -56,7 +57,7 @@ export const UserContextProvider = ({children}) => {
 
     const getProfile = () => (profile) 
     
-    const getRentals = () => {
+    const getRentals =  () => {
         setRentals (
             [
                 {
@@ -79,9 +80,60 @@ export const UserContextProvider = ({children}) => {
             )
     }
 
+    const getNoActiveUsers = async () => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/users/inactive`,{
+                method: "GET",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const users = await response.json()
+            users && setNoActiveUSers(users)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+    const activateUser = async id => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/users/activate/${id}`,{
+                method: "PUT",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const res = await response.json()
+            if(response.status === 200){
+                await getNoActiveUsers()
+            }
+            return res
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+    const deleteUser = async id => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/users/remove/${id}`,{
+                method: "DELETE",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const res = await response.json()
+            if(response.status === 200){
+                await getNoActiveUsers()
+            }
+            return res
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+
+
     useEffect(()=>{
         getProfile();
         getRentals();
+        getNoActiveUsers();
     },[]) // eslint-disable-line
 
 
@@ -91,7 +143,11 @@ export const UserContextProvider = ({children}) => {
         setProfile, 
         checkConnexion, 
         logIn, 
-        logOut 
+        logOut, 
+        noActiveUsers,
+        activateUser,
+        getNoActiveUsers,
+        deleteUser
     }}>
         {children}
     </UserContext.Provider>)

@@ -15,7 +15,7 @@ const cors = require("cors");
 //middleware
 app.use(cors({
   origin: ["http://localhost:3000","https://mediatheque-react-node.herokuapp.com"], // pass to false to desactive cors
-  methods: ["POST","PUT","GET","OPTIONS","HEAD"],
+  methods: ["POST","PUT","GET","DELETE","OPTIONS","HEAD"],
   credentials: true
 }));
 app.use(express.json());

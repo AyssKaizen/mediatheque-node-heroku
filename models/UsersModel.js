@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs')
 
 const findAllUsers = () => db('users')
 
+const findNoactiveUsers = () => db('users').where({us_active: false})
+
 const findOneByMail = (email) => db('users').first('*').where({us_email: email})
 
 const login = async (email, password) => {
@@ -59,6 +61,16 @@ const updateUserByID = (id,payload) => {
         })
 }
 
+const activateUserByID = id => {
+    return db('users')
+        .where({
+            us_id: id
+        })
+        .update({
+            us_active: true,
+        })
+}
+
 const deleteUserByID = id => {
     return db('users').where({
         us_id: id
@@ -72,5 +84,7 @@ module.exports = {
     findUserByID,
     updateUserByID,
     deleteUserByID,
-    findOneByMail
+    findOneByMail,
+    findNoactiveUsers,
+    activateUserByID
 }

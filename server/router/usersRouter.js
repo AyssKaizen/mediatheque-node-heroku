@@ -9,6 +9,13 @@ router.get('/', async (req,res) => {
     } else res.json('vous ne disposez pas des autorisations nécessaires')
 })
 
+router.get('/inactive', async (req,res) => {
+  if(req.session?.user?.isAdmin){
+    const users = await Users.findNoactiveUsers()
+    res.json(users)
+  } else res.json('vous ne disposez pas des autorisations nécessaires')
+})
+
 router.get('/auth', async (req,res) => {
   if(req.session.user){
     const id = req.session.user.id.toString()
@@ -82,20 +89,34 @@ router.put("/:id", async (req,res) => {
     try {
       const { id } =req.params
       await Users.updateUserByID(id,req.body)
-      res.json("Utilisateur mis à jour")
+      res.status('200').json("utilisateur mis à jour")
     } catch (err) {
       console.log(err.message);
+      res.status('500').json("une erreur est survenue")
     }
 });
 
+//activate user by id 
+router.put("/activate/:id", async (req,res) => {
+  try {
+    const { id } =req.params
+    await Users.activateUserByID(id)
+    res.status('200').json("compte utilisateur activé avec succès")
+  } catch (err) {
+    console.log(err.message);
+    res.status('500').json("une erreur est survenue")
+  }
+});
+
 // delete user by id
-router.delete('/:id', async (req,res) => {
+router.delete('/remove/:id', async (req,res) => {
     try {
       const { id } =req.params
-      const user = await Users.deleteUserByID(id)
-      res.json(user[0])
+      await Users.deleteUserByID(id)
+      res.status('200').json("compte utilisateur supprimé avec succès")
     } catch (err) {
       console.log(err.message);
+      res.status('500').json("une erreur est survenue")
     }
 });
 

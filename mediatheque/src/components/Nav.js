@@ -65,7 +65,7 @@ const Nav = ({profile}) => {
             <Link to="/catalog" className="navbar-item">Catalogue</Link>
             <Link to="/myloan" className="navbar-item">Emprunts</Link>
           </>)}
-          {profile.us_admin && <Link to="/myloan" className="navbar-item">Validation</Link>}
+          {profile.us_admin && <Link to="/validation" className="navbar-item">Validation</Link>}
           <div className="navbar-item">
             <div className="buttons">
               <div style={styles.userImage}>
