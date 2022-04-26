@@ -19,13 +19,12 @@ const Validation = () => {
 
     const toggleModal = () => {
         document.getElementById("modalUserActived").classList.toggle("is-active")
-      }
-      const onCloseModal = () => {
+    }
+    const onCloseModal = () => {
         toggleModal()
-      }
+    }
 
-
-    const manageRow = () => noActiveUsers.map(
+    const manageRow = () => noActiveUsers && noActiveUsers.map(
             item => 
                 <tr key={item.us_id}>
                     <td>{item.us_lastname}</td>
