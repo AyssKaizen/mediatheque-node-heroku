@@ -41,7 +41,9 @@ app.use(session({
   }
 }))
 const userRouter = require("./router/usersRouter")
+const mediaRouter = require("./router/mediasRouter")
 app.use('/users', userRouter)
+app.use('/medias', mediaRouter)
 
 // Have Node serve the files for our built React app.
 app.use(express.static(path.resolve(__dirname, '../mediatheque/build')));

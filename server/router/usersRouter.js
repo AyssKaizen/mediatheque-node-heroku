@@ -2,7 +2,6 @@ const router = require('express').Router()
 const Users = require('../../models/UsersModel')
 
 router.get('/', async (req,res) => {
-
     if(req.session?.user?.isAdmin){
       const users = await Users.findAllUsers()
       res.json(users)
