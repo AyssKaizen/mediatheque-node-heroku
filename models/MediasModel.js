@@ -12,6 +12,21 @@ const addMedia = async payload => {
     })  
 }
 
+const findAll = () => db('medias')
+
+const findMediaByID = id => db('medias').where({ me_id: id })
+
+const findByType = type => db('medias').where({me_type: type})
+
+const findByTypeAndGenre = (type, genre) => db('medias').where({me_type: type, me_genre: genre})
+
+const findByTitleText = text => db('medias').whereRaw('LOWER(me_title) LIKE ?', `%${text.toLowerCase()}%`)
+
 module.exports = {
-    addMedia
+    addMedia,
+    findAll,
+    findByType,
+    findByTypeAndGenre, 
+    findByTitleText,
+    findMediaByID
 }
