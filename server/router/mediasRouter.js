@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const Medias = require('../../models/MediasModel')
+const Genre = require('../../models/GenreModel')
+const Type = require('../../models/TypeModel')
 
 //GET
 // get all medias
@@ -18,6 +20,50 @@ router.get('/', async (req,res) => {
         res.status(500).send('something wrong')
     }
 })
+
+// get genres
+
+router.get('/genres', async (req,res) => {
+    try {
+        const genres = await Genre.findAll()
+        res.json(genres)
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get genre by id
+router.get('/genres/:id', async (req,res) => {
+    try {
+        const { id } =req.params
+        const genre = await Genre.findOneById(id)
+        res.json(genre)
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get types
+
+router.get('/types', async (req,res) => {
+    try {
+        const types = await Type.findAll()
+        res.json(types)
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get genre by id
+router.get('/types/:id', async (req,res) => {
+    try {
+        const { id } =req.params
+        const type = await Type.findOneById(id)
+        res.json(type)
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // get media by id
 router.get('/:id', async (req,res) => {
@@ -43,10 +89,10 @@ router.get('/:type', async (req,res) => {
 })
 
 // get medias by type and genre
-router.get('/:type/:genre', async (req,res) => {
-    const { type, genre } =req.params
+router.get('/:typeId/:genreId', async (req,res) => {
+    const { typeId, genreId } =req.params
     try{
-        const medias = await Medias.findByTypeAndGenre(type, genre)
+        const medias = await Medias.findByTypeAndGenre(typeId, genreId)
         res.json(medias)
     }catch {
         console.error(err.message);
@@ -54,17 +100,9 @@ router.get('/:type/:genre', async (req,res) => {
     }
 })
 
-// get media by name 
-router.get('/', async (req,res) => {
-    const { type, genre } =req.params
-    try{
-        const medias = await Medias.findByTypeAndGenre(type, genre)
-        res.json(medias)
-    }catch {
-        console.error(err.message);
-        res.status(500).send('something wrong')
-    }
-})
+//get genre by ID
+// get types
+// type by ID
 
 
 //POST
