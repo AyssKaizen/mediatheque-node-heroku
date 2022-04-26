@@ -22,11 +22,28 @@ const findByTypeAndGenre = (type, genre) => db('medias').where({me_type: type, m
 
 const findByTitleText = text => db('medias').whereRaw('LOWER(me_title) LIKE ?', `%${text.toLowerCase()}%`)
 
+const updateMediaByID = (id,payload) => {
+    const {title, releaseDate, image, author, type, genre} = payload
+    return db('medias')
+        .where({
+            me_id: id
+        })
+        .update({
+            me_title: title,
+            me_release_date: releaseDate,
+            me_image: image,
+            me_author: author,
+            me_type: type,
+            me_genre: genre
+        })
+}
+
 module.exports = {
     addMedia,
     findAll,
     findByType,
     findByTypeAndGenre, 
     findByTitleText,
-    findMediaByID
+    findMediaByID,
+    updateMediaByID
 }

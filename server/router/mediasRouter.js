@@ -79,6 +79,19 @@ router.post('/add', async (req,res) => {
     }
 });
 
+// update a media by id
+router.put("/:id", async (req,res) => {
+    try {
+        const { id } =req.params
+        await Medias.updateMediaByID(id,req.body)
+        res.status('200').json("media mis à jour")
+    } catch (err) {
+        console.log(err.message);
+        res.status('500').json("une erreur est survenue")
+    }
+});
+
+
 
 
 module.exports = router
