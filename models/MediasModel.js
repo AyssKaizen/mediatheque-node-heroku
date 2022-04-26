@@ -38,6 +38,12 @@ const updateMediaByID = (id,payload) => {
         })
 }
 
+const deleteMediaByID = id => {
+    return db('medias').where({
+        me_id: id
+    }).del(('*'))
+}
+
 module.exports = {
     addMedia,
     findAll,
@@ -45,5 +51,6 @@ module.exports = {
     findByTypeAndGenre, 
     findByTitleText,
     findMediaByID,
-    updateMediaByID
+    updateMediaByID,
+    deleteMediaByID
 }

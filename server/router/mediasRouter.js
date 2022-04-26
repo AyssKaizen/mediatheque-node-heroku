@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Medias = require('../../models/MediasModel')
 
-
+//GET
 // get all medias
 router.get('/', async (req,res) => {
     try{
@@ -67,7 +67,7 @@ router.get('/', async (req,res) => {
 })
 
 
-
+//POST
 //add a media
 router.post('/add', async (req,res) => {
     try {
@@ -79,6 +79,8 @@ router.post('/add', async (req,res) => {
     }
 });
 
+
+//PUT
 // update a media by id
 router.put("/:id", async (req,res) => {
     try {
@@ -89,6 +91,21 @@ router.put("/:id", async (req,res) => {
         console.log(err.message);
         res.status('500').json("une erreur est survenue")
     }
+});
+
+//DELETE
+// delete media by ID
+router.delete('/:id', async (req,res) => {
+    if(req.session?.user?.isAdmin){
+        try {
+            const { id } =req.params
+            await Medias.deleteMediaByID(id)
+            res.status('200').json("media supprimé avec succès")
+        } catch (err) {
+            console.log(err.message);
+            res.status('500').json("une erreur est survenue")
+        }
+    } else res.json('vous ne disposez pas des autorisations nécessaires')
 });
 
 
