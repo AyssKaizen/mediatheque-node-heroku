@@ -1,5 +1,4 @@
 import React from 'react'
-import Logo from '../components/Logo';
 import Nav from '../components/Nav';
 import { useUser } from '../contexts/User';
 
@@ -19,7 +18,7 @@ const styles = {
     infos: {
         textAlign: "center",
         color: "#75D9B6",
-      },
+    },
     block: {
         marginTop: '15%',
         marginRight: '5%',
