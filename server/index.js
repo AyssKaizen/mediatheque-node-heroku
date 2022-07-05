@@ -42,6 +42,8 @@ app.use(session({
 }))
 const userRouter = require("./router/usersRouter")
 const mediaRouter = require("./router/mediasRouter")
+const uploadRouter = require('./router/cloudinaryRouter')
+app.use('/uploads', uploadRouter)
 app.use('/users', userRouter)
 app.use('/medias', mediaRouter)
 
