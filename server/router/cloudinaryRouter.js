@@ -7,7 +7,10 @@ router.post('/cloudinary-upload', fileUploader.single('file'), (req, res, next) 
     return;
   }
   res.json({ secure_url: req.file.path });
+<<<<<<< HEAD
   
+=======
+>>>>>>> dd20035 (cloudinary router added and integrated in index)
 });
 
 module.exports = router;
