@@ -4,7 +4,7 @@ import Logo from "./Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/User";
 
-const Nav = ({profile}) => {
+const Nav = ({profile, isAdding}) => {
   const navigate = useNavigate()
   const { logOut } = useUser() 
   const [burgerIsActive, setBurgerIsActive] = useState(false)
@@ -24,10 +24,10 @@ const Nav = ({profile}) => {
   };
 
   const logout = async () => {
-     const response = await logOut()
-     if(response.status === 200){
-      document.cookie = "sid=; expires=Thu, 18 Dec 2013 12:00:00 UTC"
-      navigate('/')
+      const response = await logOut()
+      if(response.status === 200){
+        document.cookie = "sid=; expires=Thu, 18 Dec 2013 12:00:00 UTC"
+        navigate('/')
     }
   }
 
@@ -52,10 +52,10 @@ const Nav = ({profile}) => {
       </div>
 
       <div id="navbarBasic" className="navbar-menu">
-        {profile.us_admin &&
+        {profile?.us_admin && !isAdding &&
             <div className="navbar-start">
             <div className="navbar-item">
-                <button className="button is-primary">+ Ajouter un livre</button>
+                <button className="button is-primary" onClick={() => navigate('/add')}>+ Ajouter un Media</button>
             </div>
             </div>
         }

@@ -8,10 +8,12 @@ const Type = require('../../models/TypeModel')
 router.get('/', async (req,res) => {
     try{
         if(req.query.search){
-            console.log(req.query);
             const medias = await Medias.findByTitleText(req.query.search)
             res.json(medias)
-        } else{
+        } else if(req.query.type){
+            const medias = await Medias.findByType(parseInt(req.query.type))
+            res.json(medias)
+        }else{
             const medias = await Medias.findAll()
             res.json(medias)
         }
@@ -76,18 +78,6 @@ router.get('/:id', async (req,res) => {
     }
 });
 
-// get medias by type 
-router.get('/:type', async (req,res) => {
-    const { type } =req.params
-    try{
-        const medias = await Medias.findByType(type)
-        res.json(medias)
-    }catch {
-        console.error(err.message);
-        res.status(500).send('something wrong')
-    }
-})
-
 // get medias by type and genre
 router.get('/:typeId/:genreId', async (req,res) => {
     const { typeId, genreId } =req.params
@@ -99,11 +89,6 @@ router.get('/:typeId/:genreId', async (req,res) => {
         res.status(500).send('something wrong')
     }
 })
-
-//get genre by ID
-// get types
-// type by ID
-
 
 //POST
 //add a media

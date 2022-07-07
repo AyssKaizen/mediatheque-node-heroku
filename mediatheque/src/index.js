@@ -12,6 +12,7 @@ import {UserContextProvider} from './contexts/User'
 import UserLoan from './Pages/UserLoan';
 import { MediasContextProvider } from './contexts/Medias';
 import Validation from './Pages/Validation';
+import AddMedia from './Pages/AddMedia';
 
 ReactDOM.render(
 <UserContextProvider>
@@ -21,6 +22,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="myloan" element={<UserLoan/>} />
         <Route path="catalog" element={<Catalog/>} />
+        <Route path="add" element={<AddMedia />} />
         <Route path="signin" element={<SignIn />} />
         <Route path="pending" element={<PendingValidation />} />
         <Route path="validation" element={<Validation />} />

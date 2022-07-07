@@ -15,7 +15,7 @@ const Validation = () => {
 
     useEffect(() => {
         getNoActiveUsers()
-    },[])
+    },[]) // eslint-disable-line
 
     const toggleModal = () => {
         document.getElementById("modalUserActived").classList.toggle("is-active")
@@ -24,7 +24,7 @@ const Validation = () => {
         toggleModal()
     }
 
-    const manageRow = () => noActiveUsers && noActiveUsers.map(
+    const manageRow = () => noActiveUsers.map(
             item => 
                 <tr key={item.us_id}>
                     <td>{item.us_lastname}</td>
