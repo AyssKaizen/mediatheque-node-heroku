@@ -7,6 +7,7 @@ router.post('/cloudinary-upload', fileUploader.single('file'), (req, res, next) 
     return;
   }
   res.json({ secure_url: req.file.path });
+  
 });
 
 module.exports = router;
