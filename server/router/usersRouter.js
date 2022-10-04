@@ -5,7 +5,7 @@ router.get('/', async (req,res) => {
     if(req.session?.user?.isAdmin){
       const users = await Users.findAllUsers()
       res.json(users)
-    } else res.json('vous ne disposez pas des autorisations nécessaires')
+    } else res.json([])
 })
 
 router.get('/inactive', async (req,res) => {

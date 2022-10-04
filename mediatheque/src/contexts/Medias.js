@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
-
+import envVar from '../envVar';
 const MediasContext = createContext({});
 export default MediasContext;
 export const useMedias = () => useContext(MediasContext);
@@ -7,6 +7,8 @@ export const useMedias = () => useContext(MediasContext);
 export const MediasContextProvider = ({children}) => {
     const [medias, setMedias] = useState([])
     const [typemedias,setTypemedias] = useState([])
+    const [types,setTypes] = useState([])
+    const [genres,setGenres] = useState([])
 
     const getMedias = () => {
         setMedias (
@@ -114,6 +116,32 @@ export const MediasContextProvider = ({children}) => {
 
             )
     }
+    const getTypes = async () => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/medias/types`,{
+                method: "GET",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const types = await response.json()
+            types && setTypes(types)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    const getGenres = async () => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/medias/genres`,{
+                method: "GET",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const genres = await response.json()
+            genres && setGenres(genres)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
     const getTypeMedias = () => {
         setTypemedias(
              ["Roman", "Album", "Comic", "Documentaire"]
@@ -123,10 +151,12 @@ export const MediasContextProvider = ({children}) => {
     useEffect(()=>{
         getMedias()
         getTypeMedias()
+        getTypes()
+        getGenres()
     },[])
 
 
-    return (<MediasContext.Provider value={{ medias, typemedias }}>
+    return (<MediasContext.Provider value={{ medias, typemedias, types, genres }}>
         {children}
     </MediasContext.Provider>)
 }

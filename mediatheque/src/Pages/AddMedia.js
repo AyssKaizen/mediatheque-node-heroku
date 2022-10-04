@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/User";
+import { useMedias } from "../contexts/Medias";
 import { useForm } from "react-hook-form";
 import HelperText from "../components/HelperText";
 import UploadAndDisplayImage from "../components/UploadAndDisplayImage";
@@ -9,10 +10,10 @@ import envVar from "../envVar";
 
 const AddMedia = () => {
     const { profile } = useUser();
+    const { types, genres } = useMedias();
     const navigate = useNavigate();
     const [urlImage, setUrlImage] = useState('')
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({mode: 'onChange'});
-    
 
 
     useEffect(() => {
@@ -151,6 +152,7 @@ const AddMedia = () => {
                                 </label>
                                 <div className="control">
                                     <textarea
+                                    {...register("description", { required: true })}
                                         style={styles.textColorInput}
                                         className="textarea"
                                     />
@@ -163,9 +165,7 @@ const AddMedia = () => {
                                     </label>
                                     <div className="select is-normal control">
                                         <select {...register("type", { required: true })}  >
-                                            <option value={1}>Livre </option>
-                                            <option value={2}>Album</option>
-                                            <option value={3}>Documentaire</option>
+                                            {types.map(type => <option key={type.ty_id} value={type.ty_id}>{type.ty_name}</option>) || []}
                                         </select>
                                     </div>
                                     {errors.type && <HelperText />}
@@ -177,9 +177,7 @@ const AddMedia = () => {
                                     </label>
                                     <div className="select is-normal control">
                                         <select {...register("genre", { required: true })} >
-                                            <option value={1}>drame</option>
-                                            <option value={2}>policier</option>
-                                            <option value={3}>aventure</option>
+                                        {genres.map(genre => <option key={genre.ge_id} value={genre.ge_id}>{genre.ge_name}</option>) || []}
                                         </select>
                                     </div>
                                     {errors.genre && <HelperText />}

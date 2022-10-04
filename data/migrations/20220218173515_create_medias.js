@@ -6,6 +6,7 @@ exports.up = (knex) => {
             table.string('me_release_date', 128).notNullable();
             table.string('me_image', 128);
             table.string('me_author').notNullable();
+            table.string('me_description').notNullable();
             table.integer('me_type').references('ty_id').inTable('type');
             table.integer('me_genre').references('ge_id').inTable('genre');
         });

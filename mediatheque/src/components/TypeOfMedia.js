@@ -21,7 +21,8 @@ const TypeOfMedia = () => {
   }, [currentGenre]); // eslint-disable-line
 
   const manageDatas = () => {
-    return currentData.map((item) => <div key={item.id} onClick={()=> {setShowDetails(true); setItemClicked(item)}}><Article item={item} /></div>);
+    const data = currentData.length > 0 ? currentData : medias
+    return data.map(item => <div key={item.id} onClick={()=> {setShowDetails(true); setItemClicked(item)}}><Article item={item} /></div>);
   };
   const search = () => {
     setCurrrentData(
@@ -71,7 +72,7 @@ const TypeOfMedia = () => {
   };
   const manageTypes = (medias) => {
     return medias.map((item) => (
-      <p key={item} id={item} onClick={() => setCurrentType(item)} style={styles.type}>
+      <p key={item} id={item} onClick={() => setCurrentType(item)} style={styles.type(currentType, item)}>
         {item}
       </p>
     ));
@@ -128,10 +129,12 @@ const styles = {
   isActive: {
     textDecorationLine: "underline",
   },
-  type: {
+  type: (currentItem, item) => ({
     marginTop: "18px",
     cursor: "pointer",
-  },
+    color: currentItem === item ? 'red' : 'black',
+    textDecoration: currentItem === item ? 'underline' : 'none'
+   }),
   typeMedias:{
     borderStyle: "solid",
     borderWidth: "1px",
