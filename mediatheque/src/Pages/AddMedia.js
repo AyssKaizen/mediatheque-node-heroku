@@ -159,7 +159,7 @@ const AddMedia = () => {
                             <div style={styles.rowField} className="field is-horizontal">
                                 <div style={styles.field} className="field">
                                     <label style={{ color: "#1A6E93" }} className="label">
-                                        type de media
+                                        type de mediaaaaaa
                                     </label>
                                     <div className="select is-normal control">
                                         <select {...register("type", { required: true })}  >
