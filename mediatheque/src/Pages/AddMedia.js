@@ -153,6 +153,7 @@ const AddMedia = () => {
                                 </label>
                                 <div className="control">
                                     <textarea
+                                    {...register("description", { required: true })}
                                         style={styles.textColorInput}
                                         className="textarea"
                                     />
