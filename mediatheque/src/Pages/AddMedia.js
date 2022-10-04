@@ -14,7 +14,6 @@ const AddMedia = () => {
     const navigate = useNavigate();
     const [urlImage, setUrlImage] = useState('')
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({mode: 'onChange'});
-    console.log('genres....==>',genres)
 
 
     useEffect(() => {
