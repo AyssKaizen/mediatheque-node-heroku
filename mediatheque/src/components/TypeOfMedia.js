@@ -4,76 +4,90 @@ import { useMedias } from "../contexts/Medias";
 import DetailsArticle from "./DetailsArticle";
 
 const TypeOfMedia = () => {
-  const { medias, typemedias } = useMedias();
-  const [currentData, setCurrrentData] = useState([]);
+  const { medias, types, genres } = useMedias();
+  const [currentData, setCurrrentData] = useState();
   const [currentType, setCurrentType] = useState();
   const [currentGenre, setCurrentGenre] = useState();
-  const [textInput, setTextInput] = useState("");
+  const [textInput, setTextInput] = useState('');
   const [showDetails, setShowDetails] = useState(false);
   const [itemClicked,setItemClicked] = useState()
+
+  console.log('currentData',currentData)
 
   useEffect(() => {
     setCurrrentData(filterType());
   }, [currentType]); // eslint-disable-line
 
   useEffect(() => {
+    textInput === '' && setCurrrentData(medias)
+  },[textInput])
+
+  useEffect(() => {
     setCurrrentData(filterGenre());
   }, [currentGenre]); // eslint-disable-line
 
   const manageDatas = () => {
-    const data = currentData.length > 0 ? currentData : medias
-    return data.map(item => <div key={item.id} onClick={()=> {setShowDetails(true); setItemClicked(item)}}><Article item={item} /></div>);
+    const data = currentType === undefined & currentGenre === undefined ? medias : currentData
+    console.log('data???',data);
+    return data.map(item => 
+    <div
+      key={item.me_id} 
+      onClick={()=> {setShowDetails(true); setItemClicked(item)}}>
+        <Article item={item} />
+    </div>);
   };
   const search = () => {
     setCurrrentData(
       medias.filter((item) =>
-        item.title.toLowerCase().includes(textInput.toLowerCase())
+        item.me_title.toLowerCase().includes(textInput.toLowerCase())
       )
     );
+    setCurrentType();
   };
-  const unique = (list) => {
-    let unique = [];
-    list.forEach((item) => {
-      if (unique.filter((it) => it.genre === item.genre).length === 0) {
-        unique.push(item);
-      }
-    });
-    return unique;
-  };
+  /*
+    const unique = (list) => {
+      let unique = [];
+      list.forEach((item) => {
+        if (unique.filter((it) => it.genre === item.genre).length === 0) {
+          unique.push(item);
+        }
+      });
+      return unique;
+    };
+  */
   const manageGenre = () => {
-    const unik = unique(currentData);
-    return unik.map((item) => (
+    return genres.map((item) => (
       <div
-        id={`type${item.id}`}
-        key={`type${item.id}`}
+        id={`type${item.ge_id}`}
+        key={`type${item.ge_id}`}
         onMouseEnter={() => {
-          document.getElementById(`type${item.id}`).style.backgroundColor =
+          document.getElementById(`type${item.ge_id}`).style.backgroundColor =
             "white";
-          document.getElementById(`type${item.id}`).style.color = "black";
+          document.getElementById(`type${item.ge_id}`).style.color = "black";
         }}
         onMouseLeave={() => {
           document
-            .getElementById(`type${item.id}`)
+            .getElementById(`type${item.ge_id}`)
             .style.removeProperty("background-color");
-          document.getElementById(`type${item.id}`).style.color = "white";
+          document.getElementById(`type${item.ge_id}`).style.color = "white";
         }}
-        onClick={() => {setCurrentGenre(item.genre); setCurrentType()}}
+        onClick={() => {setCurrentGenre(item.ge_id); setCurrentType()}}
       >
-        {item.genre}
+        {item.ge_name}
       </div>
     ));
   };
   const filterGenre = () => {
-    return medias.filter((item) => item.genre === currentGenre);
+    return medias.filter((item) => item.me_genre === currentGenre);
   };
 
   const filterType = () => {
-    return medias.filter((item) => item.type_media === currentType);
+    return medias.filter((item) => item.me_type === currentType);
   };
-  const manageTypes = (medias) => {
-    return medias.map((item) => (
-      <p key={item} id={item} onClick={() => setCurrentType(item)} style={styles.type(currentType, item)}>
-        {item}
+  const manageTypes = () => {
+    return types.map((item) => (
+      <p key={item.ty_id} id={item.ty_id} onClick={() => setCurrentType(item.ty_id)} style={styles.type(currentType, item.ty_id)}>
+        {item.ty_name}
       </p>
     ));
   };
@@ -83,7 +97,7 @@ const TypeOfMedia = () => {
         className="block"
         style={styles.typeMedias}
       >
-        {manageTypes(typemedias)}
+        {manageTypes()}
         <div style={{ padding: "5px" }} className="field">
           <label style={{ margin: 0 }} className="label is-small">
             Rechercher
@@ -109,7 +123,7 @@ const TypeOfMedia = () => {
         }}
       >
         <div style={styles.articlesSection}>
-          {manageDatas()}
+          {currentData && manageDatas()}
         </div>
         <div
           style={{ width: "19%", backgroundColor: "#1A6E93", padding: "5px" }}
