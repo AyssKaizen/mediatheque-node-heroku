@@ -48,6 +48,22 @@ export const MediasContextProvider = ({children}) => {
             console.error(error.message)
         }
     }
+    const deleteMediaByID = async id => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/medias/${id}`,{
+                method: "DELETE",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const res = await response.json()
+            if(response.status === 200){
+                await getMedias();
+            }
+            return res
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
 
     useEffect(()=>{
         getMedias()
@@ -56,7 +72,7 @@ export const MediasContextProvider = ({children}) => {
     },[])
 
 
-    return (<MediasContext.Provider value={{ medias, types, genres }}>
+    return (<MediasContext.Provider value={{ medias, types, genres, deleteMediaByID }}>
         {children}
     </MediasContext.Provider>)
 }
