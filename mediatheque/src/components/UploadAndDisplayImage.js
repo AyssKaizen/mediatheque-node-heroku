@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import cloudinaryUpload from "../services/uploads";
 
-const UploadAndDisplayImage = ({setImage}) => {
+const UploadAndDisplayImage = ({setImage, image}) => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     const handleFileUpload = async e => {
@@ -22,6 +22,16 @@ const UploadAndDisplayImage = ({setImage}) => {
                     />
                     <br/>
                     <button className="button is-small" onClick={() => setSelectedImage(null)}>supprimer l'image</button>
+                </div>
+            )}
+            {image && !selectedImage && (
+                <div>
+                    <img
+                        alt="not fount"
+                        width={"100px"}
+                        src={image}
+                    />
+                    <br/>
                 </div>
             )}
             <br />

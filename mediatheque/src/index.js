@@ -13,6 +13,7 @@ import UserLoan from './Pages/UserLoan';
 import { MediasContextProvider } from './contexts/Medias';
 import Validation from './Pages/Validation';
 import AddMedia from './Pages/AddMedia';
+import ModifyMedia from './Pages/ModifyMedia';
 
 ReactDOM.render(
 <UserContextProvider>
@@ -26,6 +27,7 @@ ReactDOM.render(
         <Route path="signin" element={<SignIn />} />
         <Route path="pending" element={<PendingValidation />} />
         <Route path="validation" element={<Validation />} />
+        <Route path="/update/:item" element={<ModifyMedia />} />
       </Routes>
     </BrowserRouter>
   </MediasContextProvider>

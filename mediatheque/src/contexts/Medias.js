@@ -48,6 +48,35 @@ export const MediasContextProvider = ({children}) => {
             console.error(error.message)
         }
     }
+    const getMediaByID = async (id) => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/medias/${id}`,{
+                method: "GET",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+            });
+            const media = await response.json()
+            return media
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    const updateMediaByID = async (id, payload) => {
+        try {
+            const response = await fetch(`${envVar.apiUrl}/medias/${id}`,{
+                method: "PUT",
+                credentials: 'include',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(payload)
+            });
+            if(response.status === 200){
+                await getMedias();
+                return response.status
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
     const deleteMediaByID = async id => {
         try {
             const response = await fetch(`${envVar.apiUrl}/medias/${id}`,{
@@ -72,7 +101,7 @@ export const MediasContextProvider = ({children}) => {
     },[])
 
 
-    return (<MediasContext.Provider value={{ medias, types, genres, deleteMediaByID }}>
+    return (<MediasContext.Provider value={{ medias, types, genres, deleteMediaByID, getMediaByID, updateMediaByID }}>
         {children}
     </MediasContext.Provider>)
 }

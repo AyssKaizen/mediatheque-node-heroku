@@ -39,6 +39,10 @@ const DetailsArticle = ({ item, showDetails }) => {
     await deleteMediaByID(item.me_id)
     onCloseModal()
   }
+  const updateMedia = () => {
+    navigate(`/update/${item.me_id}`)
+  }
+
   return (
     <div style={{display: "flex", justifyContent: "center"}}>
       <div id="modalMediaDeleted" className="modal">
@@ -81,7 +85,7 @@ const DetailsArticle = ({ item, showDetails }) => {
               style={{ marginRight: 5 }}>
                 Supprimer
             </button>
-            <button onClick={() => console.log('modifier article', item)}
+            <button onClick={updateMedia}
             className="button is-primary is-outlined"
             style={{ textAlign: "center", alignSelf: "flex-end" }}>
               Modifier
